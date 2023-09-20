@@ -64,6 +64,9 @@ app.use(mongoSanitize({
     replaceWith: '_',
   }))
 
+//const secret = process.env.SECRET || 'thisshouldbesecret!';
+
+
 //MongoStore.create() method
   const store = MongoStore.create({
     mongoUrl: dbUrl,
@@ -75,6 +78,7 @@ app.use(mongoSanitize({
 store.on("error", function (e){
     console.log('Session Store Error', e)
 })
+
 
 
 const sessionConfig = {
