@@ -28,10 +28,11 @@ const reviewRoutes = require('./routes/reviews');
 const campground = require('./models/campground');  // 
 
 const MongoStore = require("connect-mongo");
+const { prototype } = require('module');
 
-// process.env.DB_URL
- const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
 
+const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
+//const dbURL =  process.env.DB_URL||'mongodb://127.0.0.1:27017/yelp-camp' cant get to work
 
 mongoose.connect(dbUrl)
    .then(() => {
@@ -63,8 +64,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize({
     replaceWith: '_',
   }))
-
-//const secret = process.env.SECRET || 'thisshouldbesecret!';
+//
+//const secret = process.env.SECRET || 'thisshouldbesecret!'; cant get this to work
 
 
 //MongoStore.create() method
@@ -80,10 +81,11 @@ store.on("error", function (e){
 })
 
 
-
+//
 const sessionConfig = {
     store,
     name:'session',
+    //secret, cant get this to work
     secret: 'thisshouldbesecret!',
     resave: false,
     saveUninitialized: true,
@@ -94,6 +96,12 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }
+
+// the 4lines below are from a q&a and do not work
+// console.log("******************************************");
+// console.log("dbUrl: ", dbURL);
+// console.log("process.env.DB_URL: ", process.env.DB_URL);
+// console.log("******************************************");
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(helmet({}));
@@ -116,7 +124,7 @@ const styleSrcUrls = [
     "https://api.tiles.mapbox.com/",
     "https://fonts.googleapis.com/",
     "https://use.fontawesome.com/",
-    "https://cdn.jsdelivr.net",//adding this fixed bootstrap it took 4hours to do
+    "https://cdn.jsdelivr.net",//adding this fixed bootstrap
 ];
 const connectSrcUrls = [
     "https://api.mapbox.com/",
@@ -185,6 +193,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', {err})
 })
 
+// const port = process.env.PORT || 3000;//cant get to work
 app.listen(3000, () => {
-    console.log('Serving on port 3000')
+    console.log("Serving on port 3000")
 })
