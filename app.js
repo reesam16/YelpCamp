@@ -31,8 +31,8 @@ const MongoStore = require("connect-mongo");
 const { prototype } = require('module');
 
 
-const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
-//const dbURL =  process.env.DB_URL||'mongodb://127.0.0.1:27017/yelp-camp' cant get to work
+//const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
+const dbUrl =  process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelp-camp' 
 
 mongoose.connect(dbUrl)
    .then(() => {
@@ -65,7 +65,7 @@ app.use(mongoSanitize({
     replaceWith: '_',
   }))
 //
-//const secret = process.env.SECRET || 'thisshouldbesecret!'; cant get this to work
+const secret = process.env.SECRET || 'thisshouldbesecret!'; //cant get this to work
 
 
 //MongoStore.create() method
@@ -85,8 +85,8 @@ store.on("error", function (e){
 const sessionConfig = {
     store,
     name:'session',
-    //secret, cant get this to work
-    secret: 'thisshouldbesecret!',
+    secret, 
+    //secret: 'thisshouldbesecret!',
     resave: false,
     saveUninitialized: true,
     cookie: {
